@@ -1,0 +1,89 @@
+# ---> Ruby / Rails
+
+# Dependências
+/vendor/bundle
+/vendor/ruby
+
+# Arquivos de log e temporários
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Banco de dados SQLite (se usar SQLite no dev)
+/db/*.sqlite3
+/db/*.sqlite3-journal
+/db/*.sqlite3-wal
+/db/*.sqlite3-shm
+
+# Arquivos de PID e sockets
+/tmp/pids/*
+/tmp/sockets/*
+!/tmp/pids/
+!/tmp/sockets/
+
+# Arquivos de cache
+/tmp/cache/*
+/tmp/storage/*
+/tmp/sessions/*
+
+# Arquivos de compilação de assets
+/public/assets
+/public/packs
+/public/packs-test
+/public/vite
+/node_modules
+/yarn-error.log
+/npm-debug.log*
+/pnpm-debug.log*
+
+# Arquivos de importmap e propshaft
+/public/assets
+/public/mru_assets
+/.propshaft-cache
+
+# Configurações locais
+/config/master.key
+/config/credentials/*.key
+/config/credentials.yml.enc.old
+/.env
+/.env.*
+
+# IDEs / Editores
+/.idea
+/.vscode
+*.swp
+*~
+.project
+.DS_Store
+Thumbs.db
+
+# Testes
+/coverage/
+/spec/examples.txt
+/spec/tmp/*
+/rspec.log
+
+# Arquivos de build e CI
+/build/
+.bundle/
+/.byebug_history
+
+# Docker
+/docker-compose.override.yml
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+
+# Sistema operacional
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# Para o caso de usar Active Storage
+/storage/*
+!/storage/.keep
+
+# Outros opcionais
+/public/uploads
