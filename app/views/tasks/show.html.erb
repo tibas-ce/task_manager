@@ -1,0 +1,22 @@
+<h1><%= @task.title %></h1>
+
+<!-- Exibição do status da tarefa -->
+<p>
+    <strong>Status</strong>
+    <%# Verifica se a tarefa está concluída e exibe o ícone correspondente %>
+    <% if @task.completed? %>
+        ✅ Concluída
+    <% else %>
+        ⏳ Pendente
+    <% end %>
+</p>
+
+<!-- Exibição da descrição completa da tarefa -->
+<p>
+    <strong>Descrição</strong>
+    <%= @task.description %>
+</p>
+
+<!-- Ações disponíveis: editar e voltar para a lista -->
+<%= link_to "Editar", edit_task_path(@task) %> |
+<%= link_to "Voltar para a lista", tasks_path %>
