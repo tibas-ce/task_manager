@@ -1,0 +1,30 @@
+<h1>Lista de Tarefas</h1>
+
+<!-- Link para criar nova tarefa -->
+<%= link_to "Nova Tarefa", new_task_path %>
+<br><br>
+
+<%# Loop para exibir todas as tarefas recebidas do controller %>
+<% @tasks.each do |task| %>
+    <div>
+        <h2>
+            <%# link_to retorna um link com o título da tarefa apontando para a página de detalhes %>
+            <%= link_to task.title, task_path(task) %>
+            <%# Exibição do status da tarefa com emojis para facilitar leitura visual %>
+            <% if task.completed? %>
+            (✅ Concluída)
+            <% else %>
+            (⏳ Pendente)
+            <% end %>
+        </h2>
+        <!-- Mostra um resumo da descrição; útil para evitar textos grandes na lista -->
+        <p><%= truncate(task.description, length: 50) %></p>
+        <!-- Link para página de edição da tarefa -->
+        <%= link_to "Editar", edit_task_path(task) %>
+
+        <%# Botão que envia um DELETE para remover a tarefa, com confirmação %>
+        <%= button_to "Excluir", task_path(task), method: :delete, data: { turbo_confirm: "Tem certeza?" } %>
+
+        <hr>
+    </div>
+<% end %>

@@ -1,0 +1,9 @@
+<h1>Editar Tarefa</h1>
+
+<%# Renderiza o formulário compartilhado (_form), reaproveitando código entre new e edit %>
+<%= render "form", task: @task %>
+
+<!-- Link para visualizar os detalhes da tarefa -->
+<%= link_to "Ver detalhes", @task %>
+<!-- Link para retornar à lista de tarefas -->
+<%= link_to "Voltar para a lista", tasks_path %>
