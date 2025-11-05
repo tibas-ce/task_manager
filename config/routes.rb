@@ -1,6 +1,7 @@
 # config/routes.rb
 
 Rails.application.routes.draw do
+  devise_for :users
   # Cria todas as 7 rotas CRUD RESTful: index, show, new, create, edit, update, destroy
   resources :tasks
 
