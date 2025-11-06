@@ -1,12 +1,21 @@
 <h1>Lista de Tarefas</h1>
 
-<!-- Link para criar nova tarefa -->
-<%= link_to "Nova Tarefa", new_task_path %>
-<br><br>
+<% if user_signed_in? %>
+    <!-- Link para criar nova tarefa -->
+    <%= link_to "Criar nova tarefa", new_task_path, style:"margin-bottom: 20px; display: block" %>
+<% else %>
+    <p>
+        Para criar ou interagir com as tarefas, por favor, 
+        <%= link_to "faça login", new_user_session_path %> ou 
+        <%= link_to "crie uma conta", new_user_registration_path %>.
+    </p>
+<% end %>
+
+<hr>
 
 <%# Loop para exibir todas as tarefas recebidas do controller %>
 <% @tasks.each do |task| %>
-    <div>
+    <div style="border: 1px solid #eee; padding: 15px; margin-bottom: 10px">
         <h2>
             <%# link_to retorna um link com o título da tarefa apontando para a página de detalhes %>
             <%= link_to task.title, task_path(task) %>
@@ -17,14 +26,25 @@
             (⏳ Pendente)
             <% end %>
         </h2>
+        <p>
+            <small>
+                Criado por: 
+                <strong><%= task.user.email %></strong>
+                em <%= task.created_at.strftime("%d/%m/%Y") %>
+            </small>
+        </p>
         <!-- Mostra um resumo da descrição; útil para evitar textos grandes na lista -->
         <p><%= truncate(task.description, length: 50) %></p>
-        <!-- Link para página de edição da tarefa -->
-        <%= link_to "Editar", edit_task_path(task) %>
+        <%# Lógica para editar/completar: dono ou admin %>
+        <% if user_signed_in? && (task.user == current_user || current_user.admin?) %>
+            <!-- Link para página de edição da tarefa -->
+            <%= link_to "Editar/Completar", edit_task_path(task), style: "margin-right: 15px" %>
+        <% end %>
 
-        <%# Botão que envia um DELETE para remover a tarefa, com confirmação %>
-        <%= button_to "Excluir", task_path(task), method: :delete, data: { turbo_confirm: "Tem certeza?" } %>
-
+        <%# Botão que envia um DELETE para remover a tarefa, com confirmação. Apenas admin %>
+        <% if user_signed_in? && current_user.admin? %>
+            <%= button_to "Excluir", task_path(task), method: :delete, data: { turbo_confirm: "Tem certeza?" } %>
+        <% end %>
         <hr>
     </div>
 <% end %>
