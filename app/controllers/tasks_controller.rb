@@ -1,13 +1,22 @@
 class TasksController < ApplicationController
+  # Garante que apenas usuários autenticados acessem qualquer ação
+  before_action :authenticate_user!
+
   # O método set_task será executado antes das ações 'show', 'edit', 'update' e 'destroy'
   before_action :set_task, only: [ :show, :edit, :update, :destroy ]
 
+  # Só o dono ou o admin podem editar/atualizar
+  before_action :check_owner_or_admin, only: [ :edit, :update ]
+
+  # Apenas admin pode excluir
+  before_action :check_admin_for_destruction, only: [ :destroy ]
+
   # --- Ações de LEITURA (Read) ---
 
-  # 1. INDEX (Listar todos)
+  # 1. INDEX (Listar todas as tarefas caso for admin)
   def index
     # Active Record: Recupera todas as tarefas do banco de dados
-    @tasks = Task.all.order(created_at: :desc)
+    @tasks = current_user.admin? ? Task.order(created_at: :desc) : current_user.tasks.order(created_at: :desc)
   end
 
   # 2. SHOW (Mostrar detalhes de uma)
@@ -19,14 +28,14 @@ class TasksController < ApplicationController
 
   # 3. NEW (Prepara um novo objeto)
   def new
-    # Prepara um objeto Task vazio para o formulário
-    @task = Task.new
+    # Usa o relacionamento para criar
+    @task = current_user.tasks.build
   end
 
-  # 4. CREATE (Salva no banco)
+  # 4. CREATE - Salva a task e atribui o user_id
   def create
     # 1. Cria um novo objeto com os parâmetros permitidos (task_params)
-    @task = Task.new(task_params)
+    @task = current_user.tasks.build(task_params)
 
     # 2. Tenta salvar no banco e redireciona ou renderiza o formulário novamente
     if @task.save
@@ -74,6 +83,21 @@ class TasksController < ApplicationController
   # Método para buscar uma tarefa pelo ID antes das ações que precisam dela.
   def set_task
     @task = Task.find(params[:id])
+  end
+
+  # Filtro 1 - Permite editar/atualizar se for o dono ou admin
+  def check_owner_or_admin
+    # Se não for o dono ou admin, redireciona
+    unless @task.user == current_user || current_user.admin?
+      redirect_to tasks_path, alert: "Acesso negado. Você só pode editar tarefas próprias."
+    end
+  end
+
+  # Filtro 2 - Permite apenas o admin excluir uma tarefa
+  def check_admin_for_destruction
+    unless current_user.admin?
+      redirect_to tasks_path, alert: "Acesso negado. Somente administradores podem excluir tarefas."
+    end
   end
 
   # STRONG PARAMS: Define quais parâmetros são permitidos. ESSENCIAL para segurança.
