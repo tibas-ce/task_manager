@@ -23,6 +23,32 @@
   </head>
 
   <body>
+    <%# Mensagens de alerta/sucesso do Devise %>
+    <p class="notice" style="color: green"><%= notice %></p>
+    <p class="alert" style="color: red"><%= alert %></p>
+
+    <!-- Cabeçalho de navegação -->
+    <header style="border-bottom: 1px solide #ccc; padding: 10px 0; margin-bottom: 20px">
+
+      <% if user_signed_in? %>
+        <!-- Exibe o email do usuário logado -->
+        Olá, <strong><%= current_user.email %></strong>!
+
+        <% if current_user.admin? %>
+          <!-- Mostra indicação de admin e link de gerenciamento -->
+          (ADMIN) |
+          <%= link_to "Gerenciar Usuários", users_path, style="font-weight: bold; color: purple" %>
+        <% end %>
+        |
+        <%= link_to "Sair", destroy_user_session_path, data: { turbo_method: :delete } %>  
+      <% else %>
+        <!-- Links de autenticação quando o usuário não está logado -->  
+        <%= link_to "Entrar", new_user_session_path %> |
+        <%= link_to "Registrar", new_user_registration_path %>
+      <% end %>
+    </header>
+    
+    <!-- Renderiza o conteúdo específico de cada página -->
     <%= yield %>
   </body>
 </html>
