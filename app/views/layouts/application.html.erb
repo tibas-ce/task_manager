@@ -37,7 +37,7 @@
         <% if current_user.admin? %>
           <!-- Mostra indicação de admin e link de gerenciamento -->
           (ADMIN) |
-          <%= link_to "Gerenciar Usuários", users_path, style="font-weight: bold; color: purple" %>
+          <%= link_to "Gerenciar Usuários", users_path, style:"font-weight: bold; color: purple" %>
         <% end %>
         |
         <%= link_to "Sair", destroy_user_session_path, data: { turbo_method: :delete } %>  
