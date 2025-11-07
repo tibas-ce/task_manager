@@ -1,0 +1,41 @@
+<h1>Gerenciamento de Usuários</h1>
+
+<!-- Link para retornar à lista de tarefas -->
+<%= link_to "Voltar para as tarefas", tasks_path %>
+
+<table border="1" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th style="padding: 8px;">ID</th>
+            <th style="padding: 8px;">Email</th>
+            <th style="padding: 8px;">Status Admin</th>
+            <th style="padding: 8px;">Ações</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <%# Loop para listar todos os usuários cadastrados %>
+        <% @users.each do |user| %>
+            <tr>
+                <td style="padding: 8px;"><%= user.id %></td>
+                <td style="padding: 8px;"><%= user.email %></td>
+                <td style="padding: 8px;">
+                    <%# Indica visualmente se o usuário é admin %>
+                    <%= user.admin? ? "Sim (✅)" : "Não (❌)" %>
+                </td>
+                <td style="padding: 8px;">
+                    <%# Impede o usuário de alterar a própria permissão ou se excluir %>
+                    <% if user != current_user %>
+                        <!-- Link para edição de permissões -->
+                        <%= link_to "Editar Permissão", edit_user_path(user), style: "margin-right: 10px;" %>
+                        <!-- Botão para excluir usuário (somente admin, já garantido no controller) -->
+                        <%= button_to "Excluir", user_path(user), method: :delete, data: { turbo_confirm: "ATENÇÃO: A exclusão é permanente. Tem certeza?" } %>
+                    <% else %>
+                        <%# Informação exibida quando o usuário atual aparece na listagem %>
+                        Você não pode se editar ou excluir a si mesmo por aqui.
+                    <% end %>
+                </td>
+            </tr>
+        <% end %>
+    </tbody>
+</table>
