@@ -1,0 +1,61 @@
+<h2>Edit <%= resource_name.to_s.humanize %></h2>
+
+<%# Formulário de edição da conta do Devise (usa método PUT) %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <%# Exibe mensagens de erro, se houver %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <!-- Campo para editar o nome -->
+  <div class="field">
+    <%# Campo 'name' incluído nas permissões no ApplicationController %>
+    <%= f.label :name, "Seu nome" %><br />
+    <%= f.text_field :name, autocomplete: "name" %>
+  </div>
+
+  <!-- Campo para editar email -->
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
+
+  <%# Se o Devise estiver configurado com confirmação de email, exibe aviso caso um novo email aguarde confirmação %>
+  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+  <% end %>
+
+  <!-- Campo para trocar senha (opcional) -->
+  <div class="field">
+    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+    <%= f.password_field :password, autocomplete: "new-password" %>
+    <%# Exibe regra de tamanho mínimo se configurada %>
+    <% if @minimum_password_length %>
+      <br />
+      <em><%= @minimum_password_length %> characters minimum</em>
+    <% end %>
+  </div>
+
+  <!-- Campo de confirmação da nova senha -->
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
+  <!-- Campo para confirmar a senha atual (Devise exige para validação de segurança) -->
+  <div class="field">
+    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+    <%= f.password_field :current_password, autocomplete: "current-password" %>
+  </div>
+
+  <!-- Botão para salvar alterações -->
+  <div class="actions">
+    <%= f.submit "Update" %>
+  </div>
+<% end %>
+
+<h3>Cancel my account</h3>
+
+<!-- Botão para excluir conta definitivamente -->
+<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
+
+<%# Link para retornar à página anterior %>
+<%= link_to "Back", :back %>
