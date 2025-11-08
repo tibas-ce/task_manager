@@ -1,29 +1,44 @@
 <h2>Sign up</h2>
 
+<%# Formulário de cadastro padrão do Devise %>
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%# Renderiza mensagens de erro, se existirem %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
+  <!-- Campo para nome do usuário -->
+  <div class="field">
+    <%# Label e input para o atributo :name que adicionamos ao User %>
+    <%= f.label :name, "Seu nome" %><br />
+    <%= f.text_field :name, autofocus: true, autocomplete: "name" %>
+  </div>
+
+  <!-- Campo para email -->
   <div class="field">
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
 
+  <!-- Campo para senha -->
   <div class="field">
     <%= f.label :password %>
+    <%# Exibe restrição mínima apenas se configurada no Devise %>
     <% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>
     <% end %><br />
     <%= f.password_field :password, autocomplete: "new-password" %>
   </div>
 
+  <!-- Campo para confirmação de senha -->
   <div class="field">
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
+  <!-- Botão de cadastro -->
   <div class="actions">
     <%= f.submit "Sign up" %>
   </div>
 <% end %>
 
+<%# Links auxiliares do Devise (ex: Login, Recuperar senha) %>
 <%= render "devise/shared/links" %>
