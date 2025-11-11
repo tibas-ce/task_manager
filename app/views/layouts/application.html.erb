@@ -31,8 +31,8 @@
     <header style="border-bottom: 1px solide #ccc; padding: 10px 0; margin-bottom: 20px">
 
       <% if user_signed_in? %>
-        <!-- Exibe o email do usuário logado -->
-        Olá, <strong><%= current_user.email %></strong>!
+        <!-- Exibe o nome do usuário logado -->
+        Olá, <strong><%= current_user.name %></strong>!
 
         <% if current_user.admin? %>
           <!-- Mostra indicação de admin e link de gerenciamento -->
