@@ -52,6 +52,8 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::ControllerHelpers, type: :view
 
+  # Inclui os helpers de integração, que contêm 'login_as'
+  config.include Devise::Test::IntegrationHelpers, type: :controller
   # Usado para testar rotas
   config.include Devise::Test::IntegrationHelpers, type: :request
   # You can uncomment this line to turn off ActiveRecord support entirely.
